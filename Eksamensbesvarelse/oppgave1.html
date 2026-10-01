@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baby vil ha...</title>
+    <style>
+        /*IKKE LOV Å ENDRE CSS!*/
+        #container{ position: relative; width: 800px; height: 550px; border: 1px solid rgb(30, 30, 30); margin: auto;}
+        img{position: absolute;}
+        .syot{height: 150px;}
+        #jlpb{ bottom: 0; left: 300px;}
+        #inp{position: absolute; left: 250px;}
+        span, input, button{font-size: 1.3rem;}
+        /*IKKE LOV Å ENDRE CSS!*/
+    </style>
+</head>
+<body>    
+
+    <!-- IKKE LOV Å ENDRE NOE SOM HELST AV DENNE HTML'en! -->
+    <div id="container">        
+        <img id="jlpb" src="images/jlpb.png"/>
+        <img id="tac-x" src="images/cat.png" class="syot">
+        <img id="eddap-x" src="images/eskilpadde.png" class="syot">
+        <img id="gnidliub-x" src="images/building-2.png" class="syot">
+        <div id="inp">
+            <input id="gft-txt" type="text" placeholder="Hva vil du gi babyen?">
+            <button id="give-gft-btn">Gi babyen det i tekstboksen</button> 
+            <br>
+            <span id="llatna-x">Antall ting igjen å gi babyen: 3</span>
+        </div>                
+    </div>
+    <!-- IKKE LOV Å ENDRE NOE SOM HELST AV DENNE HTML'en! -->
+
+
+
+    <script>// HER SKAL DU/DERE KODE JAVASCRIPT (IKKE I EKSTERN FIL)!
+
+        // Henter HTML elementer
+        const giveGiftBtn = document.getElementById("give-gft-btn");
+        const itemsLeftTxt = document.getElementById("llatna-x");
+        const catImg = document.getElementById("tac-x");
+        const turtleImg = document.getElementById("eddap-x");
+        const houseImg = document.getElementById("gnidliub-x");
+        const giftInput = document.getElementById("gft-txt");
+        const innerDiv = document.getElementById("inp");
+        const container = document.getElementById("container");
+
+        // Globale arrays
+        const giftsArray = ["katt", "skildpadde", "hus"];
+        const selectedGifts = [];
+
+        // Variabler
+        let remainingGifts = 3;
+
+        // Hovedfunksjon for å sammenligne input med alternativene
+        function checkGiftInput() {
+            const userInput = giftInput.value.toLowerCase();
+            if (giftsArray.includes(userInput)) {
+                if (!selectedGifts.includes(userInput)) {
+                    remainingGifts --;
+                    itemsLeftTxt.innerHTML = `
+                    Antall ting igjen å gi babyen: ${remainingGifts}!
+                    <br>
+                    Du må gi alle 3 gaver til babyen!`;
+                    selectedGifts.push(userInput);
+                    selectedGiftPlacement(userInput);
+                } else {
+                    alert(`Du har allerede gitt babyen ${userInput}`);
+                }
+            } else {
+                alert(`${userInput} er ikke blant de 3 gavene du kan gi babyen!`);
+
+                hintInPlaceholder();
+            }
+        }
+
+        // Funksjon for å sammenslå input med bilde og plassering
+        function selectedGiftPlacement(input) {
+            switch(input) {
+                case "katt":
+                    catImg.style.bottom = "0px";
+                    catImg.style.left = "450px";
+                    break;
+                case "skildpadde":
+                    turtleImg.style.bottom = "0px";
+                    turtleImg.style.left = "200px";
+                    break;
+                case "hus":
+                    houseImg.style.bottom = "0px";
+                    houseImg.style.left = "550px";
+            }
+            checkIfComplete();
+        }
+
+        // Funksjon får å sjekke om alle gavene har blitt delt ut
+        function checkIfComplete() {
+            if (remainingGifts === 0) {
+                innerDiv.remove();
+
+                const happyBabyMessage = document.createElement("p");
+                happyBabyMessage.innerHTML = "Babyen er meget fornøyd med de 3 gavene! :)";
+                happyBabyMessage.style.position = "absolute";
+                happyBabyMessage.style.left = "300px";
+                happyBabyMessage.style.fontSize = "45px";
+                happyBabyMessage.style.color = "red";
+
+                container.append(happyBabyMessage);
+            }            
+        }
+
+        // Tillegsfunksjon: Hjelper brukeren med å vise alle gave alternativene
+        let sendHint = true;
+
+        function hintInPlaceholder() {
+            giftInput.value = "";
+
+            while (sendHint === true) {
+                const promptResponse = prompt("Vil du se alle gave alternativene? (Vil bli vist i input)\nSvar: ja/nei").toLowerCase();
+                if (promptResponse === "ja") {
+                    giftInput.placeholder = giftsArray;
+                    sendHint = false;
+                } else if (promptResponse.toLowerCase() === "nei") {
+                    sendHint = false;
+                } else {
+                    alert("Du må svare ja / nei");
+                }
+            }
+        }
+
+        // Onclick for funksjonene
+        giveGiftBtn.onclick = checkGiftInput;
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oppgave 2</title>
+</head>
+<body>
+
+    <div>
+
+        <!--  LEGG TIL HTML-koden som trengs for å løse oppgaven! -->
+        <h3>Legg til filmer</h3>
+        <div id="inner-div">
+            <p>Title:</p>
+            <input id="title-inp" type="text">
+            <p>Category:</p>
+            <input id="category-inp" type="text">
+        </div>
+        <p id="movie-count-txt">Antall filmer i array: 0</p>
+        <p id="error-txt">Ingen feilmeldinger enda</p>
+        <div id="btn-div">
+            <button id="array-btn">Legg til film i array</button>
+            <button id="show-array-btn">Vis alle filmene som er lagt til i array</button>
+        </div>
+        <div id="movies-container"></div>
+
+    </div>
+
+    <script>// HER SKAL DU KODE JAVASCRIPT (IKKE I EKSTERN FIL)!
+
+        // Henter HTML elementer
+        const innerDiv = document.getElementById("inner-div");
+        const titleInput = document.getElementById("title-inp");
+        const categoryInput = document.getElementById("category-inp");
+        const errorMessage = document.getElementById("error-txt");
+        const divBtn = document.getElementById("btn-div");
+        const arrayBtn = document.getElementById("array-btn");
+        const showArrayBtn = document.getElementById("show-array-btn");
+        const movieCount = document.getElementById("movie-count-txt");
+        const moviesDiv = document.getElementById("movies-container");
+
+        // Generell styling for siden
+        innerDiv.style.display = "flex";
+        innerDiv.style.alignItems = "center";
+
+        titleInput.style.height = "20px";
+        categoryInput.style.height = "20px";
+
+        // Globale arrays
+        let moviesArray = [];
+ 
+        // Hovedfunksjon for å sjekke om begge inputene er fylt ut
+        function errorCheck() {
+            const title = titleInput.value;
+            const category = categoryInput.value;
+            if (title === "" || category === "") {
+                errorMessage.innerHTML = "FEIL: Fyll ut både tittel og kategori! Denne feilmeldingen tilbakestilles om 3 sekunder!";
+                errorMessage.style.color = "red";
+                setTimeout(() => {
+                    errorMessage.innerHTML = "Ingen feilmeldinger enda.";
+                    errorMessage.style.color = "black";
+                }, 3000);
+            } else {
+                movieCount.innerHTML = `Antall filmer i array: ${moviesArray.length + 1}, siste film lagt til: ${titleInput.value}`;
+                addMovieToArray();
+            }
+        }
+
+        // Funksjon for å legge verdien fra inputene inn i moviesArray
+        function addMovieToArray() {
+            const title = titleInput.value;
+            const category = categoryInput.value;
+
+            moviesArray.push ({title, category});
+        }   
+
+        // Funksjon for å vise filmene lagret i moviesArray
+        function showMovieArray() {
+            moviesDiv.innerHTML = "";
+
+            for (let i = 0; i < moviesArray.length; i++) {
+                const titleTxt = document.createElement("h2");
+                const categoryTxt = document.createElement("p");
+
+                titleTxt.innerHTML = moviesArray[i].title;
+                categoryTxt.innerHTML = moviesArray[i].category;
+
+                moviesDiv.append(titleTxt);
+                moviesDiv.append(categoryTxt);
+            }
+        }
+
+        // Tillegsfunksjon: Sletter innehold i moviesArray, visning og antall.
+        function resetMovieArray() {
+            if(moviesArray.length === 0) {
+                errorMessage.innerHTML = "FEIL: Kan ikke tømme et tomt array!"
+                errorMessage.style.color = "red";
+                setTimeout(() => {
+                    errorMessage.innerHTML = "Ingen feilmeldinger enda.";
+                    errorMessage.style.color = "black";
+                }, 2000);
+            } else {
+                moviesArray = []; 
+                movieCount.innerHTML = "SUKSESS: Array tømt!";
+                movieCount.style.color = "green";
+                moviesDiv.innerHTML = "";
+
+                setTimeout(() => {
+                    movieCount.innerHTML = "Antall filmer i array: 0";
+                    movieCount.style.color = "black";
+                }, 2000);
+            }
+        }
+
+        // Lager en ny resetknapp for tillegsfunksjonen
+        const resetBtn = document.createElement("button");
+        resetBtn.innerHTML = "reset";
+        divBtn.append(resetBtn);
+
+        // Onclick for funksjonene
+        arrayBtn.onclick = errorCheck;
+        showArrayBtn.onclick = showMovieArray;
+        resetBtn.onclick = resetMovieArray;
+
+    </script>
+    
+</body>
+</html>
