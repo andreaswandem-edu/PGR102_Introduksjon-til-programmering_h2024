@@ -12,7 +12,7 @@
 
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
-## Om prosjektet
+## Om emnet
 
 Introduksjon til programmering (PGR102) ved Høyskolen Kristiania (1. semester). Emnet ga en innføring i JavaScript, med fokus på variabler, datatyper, løkker, betingelser og funksjoner. Vi lærte også å bruke DOM til å endre HTML og CSS og lage interaktive nettsider.
 
